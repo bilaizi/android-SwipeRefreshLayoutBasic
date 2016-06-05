@@ -140,7 +140,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
      */
     public void setViewPager(ViewPager viewPager) {
         mTabStrip.removeAllViews();
-
         mViewPager = viewPager;
         if (viewPager != null) {
             viewPager.addOnPageChangeListener(new InternalViewPagerListener());
@@ -157,13 +156,11 @@ public class SlidingTabLayout extends HorizontalScrollView {
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // If we're running on Honeycomb or newer, then we can use the Theme's
             // selectableItemBackground to ensure that the View has a pressed state
             TypedValue outValue = new TypedValue();
-            getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
-                    outValue, true);
+            getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
             textView.setBackgroundResource(outValue.resourceId);
         }
 
@@ -181,29 +178,22 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private void populateTabStrip() {
         final PagerAdapter adapter = mViewPager.getAdapter();
         final View.OnClickListener tabClickListener = new TabClickListener();
-
         for (int i = 0; i < adapter.getCount(); i++) {
             View tabView = null;
             TextView tabTitleView = null;
-
             if (mTabViewLayoutId != 0) {
                 // If there is a custom tab view layout id set, try and inflate it
-                tabView = LayoutInflater.from(getContext()).inflate(mTabViewLayoutId, mTabStrip,
-                        false);
+                tabView = LayoutInflater.from(getContext()).inflate(mTabViewLayoutId, mTabStrip, false);
                 tabTitleView = (TextView) tabView.findViewById(mTabViewTextViewId);
             }
-
             if (tabView == null) {
                 tabView = createDefaultTabView(getContext());
             }
-
             if (tabTitleView == null && TextView.class.isInstance(tabView)) {
                 tabTitleView = (TextView) tabView;
             }
-
             tabTitleView.setText(adapter.getPageTitle(i));
             tabView.setOnClickListener(tabClickListener);
-
             mTabStrip.addView(tabView);
         }
     }
@@ -211,7 +201,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-
         if (mViewPager != null) {
             scrollToTab(mViewPager.getCurrentItem(), 0);
         }
@@ -222,16 +211,13 @@ public class SlidingTabLayout extends HorizontalScrollView {
         if (tabStripChildCount == 0 || tabIndex < 0 || tabIndex >= tabStripChildCount) {
             return;
         }
-
         View selectedChild = mTabStrip.getChildAt(tabIndex);
         if (selectedChild != null) {
             int targetScrollX = selectedChild.getLeft() + positionOffset;
-
             if (tabIndex > 0 || positionOffset > 0) {
                 // If we're not at the first child and are mid-scroll, make sure we obey the offset
                 targetScrollX -= mTitleOffset;
             }
-
             scrollTo(targetScrollX, 0);
         }
     }
